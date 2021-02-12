@@ -1,0 +1,13 @@
+Compiled will be the files "forest.hdr", "CODE.PRG", "GRAPHICS.VID". These will be what you see in the game.
+
+EDIT THE GRAPHICS:
+ND is the graphics editor, in DOS, it can edit .DRW files. These files will only have graphics if they have a .VID counterpart to them with the same file name.
+
+To put edits of scenario, sprite, and animation in the game, export them with the MAKE button on the top right. It makes YOURBACK and DRAWDATA, that then are compiled with the game later. DRAWDATA needs to be ran through zDRAWDATApatcher.exe(Result will be the same file) before compiling, or else the game will not function at all.
+
+The graphical-bank VID files are created automatically by NinDraw. To make them useable on NES, run them through zVIDPatcher.exe(Result is GRAPHICS.VID), and to make them useable on Nindraw again, run them through zVIDDepatcher.exe(Result is DEPATCH.VID)
+
+
+
+COMPILE THE GAME:
+Run ASSEMBLE.BAT on DosBox, wait until it's done(Don't forget that holding ALT+F12 goes into fast-forward mode), and run the rom through zNESPatcher.exe(Result will be the same file if it works, *filename*.patched.nes if it doesn't)

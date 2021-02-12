@@ -1,0 +1,15 @@
+cycles = max
+frameskip = 25
+A65 KUNGFU
+RENAME CODE.SEG CODE.OBJ
+COPY CODE.SEG CODE.OBJ
+COPY MEMORY.SEG MEMORY.OBJ
+NINLINK CODE MEMORY
+copy /b forest.hdr+code.prg+graphicsd.vid secscout.nes
+DEL CODE.OBJ
+DEL CODE.PRG
+DEL CODE.SEG
+DEL KUNGFU.LST
+DEL SECSCOUT.NES.deb
+exit
+
