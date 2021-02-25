@@ -1,0 +1,52 @@
+Welcome to Secret Scout Easier Source Code V2.5! :)
+Categories, CTRL+F: [ Recommended tools ] [ How to...? ] [ Where is...? ] [ What is...? ]
+
+Compiled will be the files "forest.hdr", "CODE.PRG", "GRAPHICS.VID". These will be what you see in the game.
+
+[ Recommended tools ]
+
+-DOSBox is necessary;
+-FCEUX for NES emulating, making .nes *always open as* them is is good;
+-Notepad++ for ASM files, ^^ditto^^;
+-YY-CHR for graphics editing, works in NES and patched VID files;
+-HxD for HEX editing HDR,PRG,VID,NES files if necessary.
+
+
+[ How to...? ]
+
+-- EDIT THE GRAPHICS: --
+ND is Nindraw, Color Dreams' graphics editor. In DOS, it can edit .DRW files, if they have a .VID counterpart to them with the same file name. Nindraw instructions over at nindraw.txt, but mostly all you need to know if to use both mouse buttons, and that clicking the names of things gives you extra options, such as re-naming, adding frames, changing animation speed, adding palette frames, etc.
+
+To put the edits of scenario, sprite, and animation in the game, export them with the MAKE button on the top right. It makes YOURBACK and DRAWDATA (or just one pressing ESC once), that then are compiled with the game later. DRAWDATA needs to be ran through zDRAWDATApatcher.exe(Result will be the same file) before compiling, or else the game will not function at all.
+
+The graphical-bank files are created automatically by NinDraw when you save. To make them useable on NES, either export them as VRM, or run them through zVIDPatcher.exe(Result is GRAPHICS.VID). To make them useable on Nindraw again, run them through zVIDDepatcher.exe(Result is DEPATCH.VID).
+
+-- COMPILE THE GAME: --
+Run ASSEMBLE.BAT on DosBox, wait until it's done(Don't forget that holding ALT+F12 goes into fast-forward mode), and run the rom through zNESPatcher.exe(Result will be the same file if it works, *filename*.patched.nes if it doesn't)
+
+
+[ Where is...? ]
+over at KUNGFU.ASM, is:
+
+over at KUNGSUBS.ASM, is:
+-Music string/Note definitions;
+-Sound leight definitions;
+-Instrument definitions.
+
+over at KUNGTAB.ASM, is:
+
+over at YOURCODE.ASM, is:
+
+over at YOURSND.ASM, is:
+-Sound-effect and music, names and compositions. A few sounds, like the DING error sound, are elsewhere.
+
+
+Write down new findings, please.
+
+
+[ What is...? ]
+
+-A65: 65 assembler, compiles the code, assembles KUNGSUBS.ASM, KUNGTAB.ASM, YOURBACK.ASM, YOURCODE.ASM, YOURSND.ASM, and DRAWDATA.ASM;
+-ND: Nindraw, graphics editor. Reads DRW files, makes VID files automatically, used to make YOURBACK and DRAWDATA;
+-NINLINK: Takes two files and puts 'em together, necessary in the compiling, but don't worry about it.
+-zzKillFceux: closes all open Fceux tabs. It exists 'cause if you do it on the icon, they won't close until you click each individually.
