@@ -5,7 +5,7 @@ RENAME CODE.SEG CODE.OBJ
 COPY CODE.SEG CODE.OBJ
 COPY MEMORY.SEG MEMORY.OBJ
 NINLINK CODE MEMORY
-copy /b forest.hdr+code.prg+graphicsd.vrm secscout.nes
+copy /b forest.hdr+code.prg+graphics.vrm secscout.nes
 DEL CODE.OBJ
 DEL CODE.PRG
 DEL CODE.SEG
