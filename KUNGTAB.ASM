@@ -412,10 +412,18 @@ ENTITYTAB:			;ENTITY SPRITE ASSIGNMENT TABLE
 	.DRW	TEDCODE	     	;60 LITTLE TED MIDGETS
 	.DB	H'2E,H'E0,0,7		
 .EQU	BAAMGUYID,61	;custom explosion effect after enemies die
-	.DRW	EXPLOD			;61
-	.DB	0,H'E0,H'20,0
-	.DRW	DEADGUYE		;62 cool dead guy ,  rip lul
-	.DB	0,H'E0,H'20,0
+	.DRW	EXPLOD			;61 = ^
+	.DB	0,H'E0,0,0
+	.DRW	DEADGUYE		;62 = cool dead guy
+	.DB	0,H'E0,0,0
+	.DRW	HORSIE 			;63 = Millie Horsie
+	.DB	H'6E,H'E7,0,4				;3 HP, placeholder hitbox from mong
+	.DRW	MISSILE 		;64	= Homing missile
+	.DB	H'63,H'E0,H'20,7
+
+;.EQU	EAGLEFLY,21
+;	.DRW	EAGLEBIRD    	;21=EAGLE            
+;	.DB	H'63,H'E0,H'20,7		
 
 ;.EQU	BOMBGUYID,32		;BOMB THAT NINJA THROWS
 ;	.DRW	BOMBER
@@ -3801,10 +3809,12 @@ J1TAB_0:
 ;         (KUNGSUBS)                  (-1 = respawn w/o relaunch, forever)
 ;                                     (Same ID = if one is killed, other wont spawn)
 	.DRW	0,0,0,0			
-	.DRW	4
-        .DB	H'F0,62,1,H'00,-1,-1		;LAUNCH cool dead guy(ID 63), at X4 Y1
+	.DRW	2
+        .DB	H'F0,62,1,H'00,-1,-1		;LAUNCH cool dead guy(ID 62), at X2 Y1
 	.DRW	12
-        .DB	H'F0,HEROID,16,H'00,-1,-1	;LAUNCH HERO (ID 0), at X12 Y16
+        .DB	H'F0,HEROID,16,H'00,-1,-1	;LAUNCH HERO, at X12 Y16
+	.DRW	25
+        .DB	H'F0,63,15,H'00,-1,0		;LAUNCH millie horsie id 63, x25 y15
 	.DRW	50
         .DB	H'F0,40,3,H'00,-1,1			;LAUNCH Slashem (ID 40), at X50 Y3
 	.DRW	65

@@ -79,8 +79,8 @@ HEROINFO:
 	.DRW	-1       	;ATTACKING.  NO ANIMATION, IT SELECTS WHICH.
 	.DRW	HATTACK
 	.DB	H'40,-1
-	.DB	H'53,H'11   
-	.DB	H'33,H'01
+	.DB	H'56,H'11   
+	.DB	H'11,H'01
 	.DRW	-1		;DUCKING.  WE DON'T HAVE ONE, BUT USE IT FOR
 	.DRW	HSELECT		;SELECT.
 	.DB	H'40,-1
@@ -101,14 +101,14 @@ HEROINFO:
 WPUNCH:	.DRW	HKICK       	;WEAK PUNCH
 	.DRW	HMIDDLE
 	.DB	H'43,1
-	.DB	H'53,H'11	;Colbox: Distance/4 from top of sprite, Distance/2 from center of sprite ▒ Knock & Damag
-	.DB	H'33,H'01	;Hitbox: Reach Y&X in number of tiles(*2??) ▒ Direction
+	.DB	H'56,H'11
+	.DB	H'22,H'01
 
 PPUNCH:	.DRW	HSLASH		;POWER PUNCH, DOES 7 DAMAGE AND THROWS ENEMY BACK+PNTS
 	.DRW	HMIDDLE
 	.DB	H'43,1
-	.DB	H'53,H'12	;Colbox: Distance/4 from top of sprite, Distance/2 from center of sprite ▒ Knock & Damag
-	.DB	H'33,H'01	;Hitbox: Reach Y&X number of tiles*2 ▒ Direction
+	.DB	H'56,H'12
+	.DB	H'22,H'01
 
 ; Animation type:▒ 00= Nothing // #7= Align X or Y // 1#= Align Y // 2#= Align X // 4#= Autofreeze
 ;   Hitbox state:▒ 1= On, -1= Off, -2= Permanent
@@ -410,10 +410,9 @@ HH22:	.DB	FACE,CURRENT
 	.DB	STORE,21	;RESTORE THE HERO'S HEALTH IF MORE HEROS
  	.DB	SOUND	  	;HERO DEATH MUSIC
 	.DRW	DEATHRIFF,0,0,0
- 	.DB	BUTTON
-	.DRW	HH23
-	.DB	START		;SEE IF START PRESSED
 	.DB	DELAY,75
+
+	
 HH23:  	.DB	ADDHEROS,OURJOY,-1	;DECREMENT HERO COUNT
 	.DB	GETHEROS,OURJOY		;GET THE COUNT
 	.DB	EQUAL
@@ -439,8 +438,6 @@ HH30:
 	.DRW	XWIPEOUT
 
 ;	.DB	ACTIVATE,EWAKE	;AND PUT HIM BACK
-
-;THIS IS DEATH DEAD DYING
 
 ;NO MORE HEROS, GAME OVER.
 
@@ -1764,11 +1761,6 @@ SHOOTYA:
 
 SHTWAKE:
 	.DB	ENABLE,HURTING
-	.DB	INSTRUCTIONS,5
-	.DB	TARGET
-	.DRW	HERO0
-	.DB	IDENTIFY		;IDENTIFY AS ONE WHO ONLY GETS HEROS
-	.DRW	ENEMY
 	.DB	SETBEHAVIOR,WEAK|DYING|FAST	;low health, low knockback, shoots
 	.DB	SKIP
 	.DRW	BRW10	;option1
@@ -1842,8 +1834,8 @@ HORSIE:
 	.DRW	-1      		;ATTACKING
 	.DRW	SHATTACK	;If closer than 60, DODGE. Else further, SHOOT. Else further than 125, CHARGE.
 	.DB	H'40,-1
-	.DB	H'88,H'00		;sprite is 6x4 tiles
-	.DB	H'11,H'01
+	.DB	0,0
+	.DB	0,0
 	.DRW	-1				;DUCKING.  
 	.DRW	-1			;don't have one
 	.DB	H'40,-1
@@ -1875,7 +1867,7 @@ HORSIE:
 	.DB	0,0
 	.DB	0,0
 	.DRW	HORSEIDL			;CHARGE in SHATTACK is follow hero when he's too far.
-	.DRW	HRSSHOOT		;This enemy doesn't move, but blank makes 
+	.DRW	SHATTACK		;This enemy doesn't move, but blank makes 
 	.DB	H'23,-1			;it`s doing Shootya`s dodge for some reason??
 	.DB	0,0
 	.DB	0,0
@@ -1887,8 +1879,8 @@ HORSIE:
 	.DRW	HORSCHAR   		;DODGEING  
 	.DRW	HRSCHARGE	;this is actually close-up attack
 	.DB	H'40,1
-	.DB	H'88,H'22
-	.DB	H'21,H'01
+	.DB	H'24,H'12
+	.DB	H'11,H'01
 	.DRW	HORSEIDL 	 	;SHOOTING
 	.DRW	HRSSHOOT
 	.DB	H'40,1
@@ -1897,100 +1889,76 @@ HORSIE:
 
 HRSCHARGE:
 	.DB	ENABLE,ALL^WALKING|ATTACKING|DODGEING
-	.DB	ADDMOM,50,0				;charge OUR MOMENTUM IF CLOSE UP ATTACK
-	.DB	FACE,CURRENT		;Keep facing same direction
+	.DB	ADDMOM,80,-10				;charge OUR MOMENTUM IF CLOSE UP ATTACK
 	.DB	NOISE
 	.DRW	KICKSND
-	.DB	DELAY,15
-	.DB	ADDMOM,-125,-30				;charge OUR MOMENTUM IF CLOSE UP ATTACK + jump
-	.DB	DELAY,10
-	.DB	SETMOM,1,0	
-	.DB	FACE,TRAVELING|DOWN	;face travelling direction
 	.DB	SKIP
 	.DRW	SLS10
 
 HRSSHOOT:
-	.DB	SOLIDSTATE,SAFE
-	.DB	SPAWN,64,20,10,0	;SHOOT homing missile (64)
+	.DB	SPAWN,64,2,12,0	;SHOOT homing missile (64)
 	.DB	NOISE
 	.DRW	WOODCLUB
-	.DB	ANIMATION,EWAKE,2
 	.DB	DELAY,40
-	.DB	ANIMATION,EPOSE,2
 	.DB	ACTIVATE,EWALK
-
-;Option: Align X&Y(#7)/Align Y(1#)/Align X(2#)/Autofreeze(4#) ▒ Hitbox = Perma(-2)/Off(-1)/On(1)
-;Colbox: Distance/4 from top of sprite, Distance/2 from center of sprite ▒ Knock & Damag
-;Hitbox: Reach Y&X number of tiles*2 ▒ Direction
 
 MISSILE:
 	.DRW	MISSILGO		;WAKEUP
 	.DRW	MISSILCODE	 ;Eagle wakeup placeholder
-	.DB	0,1
-	.DB	H'11,H'12
-	.DB	H'11,H'01
+	.DB	H'23,1
+	.DB	H'20,H'12
+	.DB	H'11,H'0F
 	.DRW	MISSILGO 		;HURT BY ATTACK
-	.DRW	MISSILHURT			;Get kicked and fly back at enemies
-	.DB	0,-2
-	.DB	H'11,H'13
-	.DB	H'11,H'01;F
+	.DRW	MISSILHURT	;Get kicked and fly back at enemies
+	.DB	H'23,1
+	.DB	H'20,H'14
+	.DB	H'11,H'0F
 	.DRW	KABOOM			;FALLING
 	.DRW	KABAM		;turns this entity into the explosion effect
-	.DB	0,-1
+	.DB	H'40,-1
 	.DB	0,0	
 	.DB	0,0
-;WORLD COMMAND
-;JUMPING
-
-	; .DB	H'11,H'22		
-	; .DB	H'11,H'01		
-	; .DRW	MISSILGO 		;HURT BY ATTACK
-	; .DRW	MISSILHURT			;Get kicked and fly back at enemies
-	; .DB	H'40,-2
-	; .DB	H'11,H'13	;H'11,H'24
-	; .DB	H'11,H'01	;H'11,H'01
-
 
 MISSILCODE: ;FAIRYWAKE:
-	.DB	FACE,TRAVELING|DOWN	;face travelling direction
-	.DB	SOLIDSTATE,OFF
+	.DB	GRAVITY,0
+	.DB	SOLIDSTATE,ON
+	.DB	IDENTIFY
+	.DRW	ENEMY
 	.DB	TARGET
 	.DRW	HERO0
-	.DB	XTRACK,TOWARDS,YTRACK,TOWARDS
-	.DB	MOMLIMIT,50,10
-	.DB	ENABLE,ALL;HURTING
+	.DB	XTRACK,TOWARDS	
+	.DB	YTRACK,TOWARDS
+	.DB	MOMLIMIT,30,10
+	.DB	ENABLE,HURTING
 	.DB	UNLINK
-	.DB	GRAVITY,0
-MS10:  	.DB	ADDMOM,3,2
+MS10:  	.DB	ADDMOM,4,2
 	.DB	REARM
 MS15:	.DB	ATTACKED
 	.DRW	MS20
-	.DB	IFXEDGE
-	.DRW	SAFEDIE		;else die on edge
-	.DB	8
-	.DB	NOISE
-	.DRW	ROCKETNOISE
 	.DB	SKIP
 	.DRW	MS10
-MS20: 	.DB	ACTIVATE,EFALL		;fall, which is explode
+MS20: 	.DB	DELAY,1		;IF WE POKED HIM, WAIT A BIT
+	.DB	DISABLE,ALL
+	.DB	SETMOM,0,0			;0 speed
+	.DB	SOLIDSTATE,OFF
+ 	.DB	ACTIVATE,EFALL		;fall, which is explode
 
-MISSILHURT:	;putting target here will make them move back and forth into enemies unless you disable X&Y_TRACKing
+MISSILHURT:
+	.DB	SETMOM,-120,0				;Go away from HERO.
 	.DB	TARGET
-	.DRW	ALL^HERO0   	
-	.DB	DISABLE,XTRACK;,YTRACK	;DISABLE tracking
-	.DB	SETMOM,50,0	
-	.DB	NOISE
-	.DRW	BOMBSOUND
-;	.DB	ENABLE,ATTACKING	;ENABLE ATTACKING
-;	.DB	INSTRUCTIONS,8
-MH10:			;it will already be target hero, so put a negative speed, and it will run away from him
-	.DB	SETMOM,50,0	
+	.DRW	ALL^HERO0^MISSILE^HORSIE	;don't hurt Hero, other missiles, or horsies
+	.DB	FACE,CURRENT				;Keep facing same direction
+ 	.DB	DELAY,1					;give it time to adjust
+MH10:	.DB	REARM
+;	.DB	ADDMOM,120,0	
+;	.DB	XVISUAL
+;	.DRW	SAFEDIE
+;	.DB	12		;DIE IF HIT LEFT
 	.DB	ATTACKED
 	.DRW	ACTFALL		;OR IF WE HIT SOMEONE, activate falling, which is explosion in this case
-	.DB	IFXEDGE
-	.DRW	SAFEDIE		;else die on edge
-	.DB	8
-	.DB	REARM		;rearm to damage again. here late so missile has time to get away from player
+;	.DB	XVISUAL
+;	.DRW	SAFEDIE
+;	.DB	244		;OR IF HIT RIGHT
 	.DB	SKIP
 	.DRW	MH10
 
@@ -2002,23 +1970,11 @@ ACTFALL:
 ACTCHARGE:
 	.DB	ACTIVATE,ECHARGE
 
-ACTWALK:
-	.DB	ACTIVATE,EWALK
-
 CHECKFEET:
-;	.DB	STANDING
-;	.DRW	ENF10	;range 30-16, -> activate pose, else activate walk
 	.DB	YVISUAL
 	.DRW	REALDIE
-	.DB	200    		;CATCH IF ABOVE BOTTOM, NOT DEAD YET.
-;	.DB	DIE,1		;DIE IF WE FELL OFF SCREEN
-	.DB	SKIP
-	.DRW	ACTWALK
-
-;	.DB	YVISUAL
-;	.DRW	REALDIE
-;	.DB	200	; 232 (29 * 8)?, 200 (25 * 8)?
-;	.DB	ACTIVATE,EWALK		;Else, walk
+	.DB	200	; 232 (29 * 8)?, 200 (25 * 8)?
+	.DB	ACTIVATE,EWALK		;Else, walk
 
 EDGEDIE:	.DB	IFXEDGE ;this one's obvious
 	.DRW	SAFEDIE
@@ -2053,6 +2009,8 @@ DEADGUYE:
 
 DEADGUYC:
 	.DB	HALFFREQ,ON
+;	.DB	SOLIDSTATE,OFF
+;	.DB	GRAVITY,0
 	.DB	SKIP
 	.DRW DEADGUYC
 
@@ -2082,7 +2040,7 @@ KBM10:	.DB	COUNT
 	.DB	1
 	.DB	IFXEDGE
 	.DRW	SAFEDIE
-	.DB	20	;should be safer than 16
+	.DB	16
 	.DB	SKIP
 	.DRW	KBM10
 ;;;;;;;;;;

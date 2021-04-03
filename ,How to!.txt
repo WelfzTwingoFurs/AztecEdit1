@@ -24,6 +24,22 @@ The graphical-bank files are created automatically by NinDraw when you save. To 
 -- COMPILE THE GAME: --
 Run ASSEMBLE.BAT on DosBox, wait until it's done(Don't forget that holding ALT+F12 goes into fast-forward mode), and run the rom through zNESPatcher.exe(Result will be the same file if it works, *filename*.patched.nes if it doesn't)
 
+-- CONFIGURE HITBOXES AND ANIMATIONS: --
+ Animation type:▒ 00= Nothing // #7= Align X or Y // 1#= Align Y // 2#= Align X // 4#= Autofreeze
+   Hitbox state:▒ 1= On, -1= Off, -2= Permanent
+
+    Colbox area:▒ Distance/4 from top of sprite  ▒▒  Distance/2 from center of sprite
+    Information:▒ Knockback: 0= No,1= Low,3= Med,2= Hi,4= Dynimate  ▒▒  Damage: 0-7, 8= Use 16-31 (idk how to)
+
+    Hitbox area:▒ Y▒X Reach distance in number of tiles*2
+      Direction:▒ 08=UP, 04=DOWN, 02=LEFT, 01=RIGHT/Facing direction
+
+
+;Colbox: Distance/4 from top of sprite, Distance/2 from center of sprite ▒ Knock & Damag
+	.DB	H'21,H'01		;Hitbox: Reach Y&X number of tiles*2 ▒ Direction
+
+
+number of tiles*2
 
 [ Where is...? ]
 over at KUNGFU.ASM, is:
