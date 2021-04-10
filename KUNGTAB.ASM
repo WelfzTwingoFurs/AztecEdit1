@@ -3036,7 +3036,7 @@ WJ1_0:
 	.DRW	WRD1RVTS,WRD1RVT2,WRD1RVT2,WRD1RVT2
 	.DRW	WRD1RVTE,WRD1RIVR,WRD1RVLD,WRD1RVTS
 	.DRW	WRD1RVTE,WRD1RVTR,WRD1RIVR,WRD1RVEN
-	.DRW	WRD1B,WRD1B,WRD1ROCK,WRD1CAVE,-1
+	.DRW	WRD1B,WRD1B,WRD1ROCK,WRD1B,WRD1CAVE,-1
 
 ; WC1_0:	.DRW	C1A,C1C,C1D,C1D,C1E,C1E,C1E,C1E
 	; .DRW	C1D,C1D,C1C,C1D,C1E,C1E,C1D,C1D,C1E,C1G
@@ -3811,11 +3811,11 @@ J1TAB_0:
 	.DRW	0,0,0,0			
 	.DRW	2
         .DB	H'F0,62,1,H'00,-1,-1		;LAUNCH cool dead guy(ID 62), at X2 Y1
-	.DRW	12
-        .DB	H'F0,HEROID,16,H'00,-1,-1	;LAUNCH HERO, at X12 Y16
-	.DRW	25
-        .DB	H'F0,63,15,H'00,-1,0		;LAUNCH millie horsie id 63, x25 y15
-	.DRW	50
+	.DRW	8
+        .DB	H'F0,HEROID,4,H'00,-1,-1	;LAUNCH HERO, at X8 Y4 ;;; X12 Y16
+	.DRW	20
+;        .DB	H'F0,63,15,H'00,-1,0		;LAUNCH Horsie (ID 63), x20 y15 (test)
+;	.DRW	50
         .DB	H'F0,40,3,H'00,-1,1			;LAUNCH Slashem (ID 40), at X50 Y3
 	.DRW	65
 		.DB	H'F4,0,0,0,0,0				;Screen lock at X65
@@ -3833,14 +3833,16 @@ J1TAB_0:
 		.DB	H'F4,0,0,0,0,0				;Screen lock at X115
 	.DRW	138
         .DB	H'F0,38,3,H'00,-1,7			;LAUNCH Shootya (ID 38), at X138 Y3
-	.DRW	142
-        .DB	H'F0,40,5,H'00,-1,8			;LAUNCH Slashem (ID 40), at X70 Y5
-	.DRW	160
-        .DB	H'F0,40,5,H'00,-1,9			;LAUNCH Slashem (ID 40), at X160 Y5
-	.DRW	170
-        .DB	H'F0,40,10,H'00,-1,10		;LAUNCH Slashem (ID 40), at X170 Y10
+	.DRW	139
+        .DB	H'F0,40,3,H'00,-1,8			;LAUNCH Slashem (ID 40), at X139 Y3
+	.DRW	157
+        .DB	H'F0,40,5,H'00,-1,9			;LAUNCH Slashem (ID 40), at X157 Y5
+	.DRW	161
+        .DB	H'F0,9,20,H'00,-1,28		;LAUNCH LOTSMAGIC (ID 9), at X161 Y5
 	.DRW	175
 		.DB	H'F4,0,0,0,0,0				;screen lock
+	.DRW	180
+        .DB	H'F0,40,10,H'00,-1,10		;LAUNCH Slashem (ID 40), at X180 Y10
 	.DRW	187
         .DB	H'F0,6,15,H'00,-1,12		;LAUNCH Medkit (ID 6), at X187 Y15
 	.DRW	188
@@ -3857,14 +3859,14 @@ J1TAB_0:
 		.DB	H'F4,0,0,0,0,0				;screen lock at X256
 	.DRW	271
         .DB	H'F0,40,3,H'00,-1,16		;LAUNCH Slashem (ID 40), at X271 Y3
-	.DRW	280
-        .DB	H'F0,40,3,H'00,-1,17		;LAUNCH Slashem (ID 40), at X280 Y3
+	.DRW	275
+        .DB	H'F0,40,3,H'00,-1,17		;LAUNCH Slashem (ID 40), at X275 Y3
+	.DRW	281;	305;281
+        .DB	H'F0,9,20,H'00,-1,18		;LAUNCH LOTSMAGIC (ID 9), at X281 Y20
 	.DRW 	H'8000+295
 	.DB     8,23,CLIMB,0,0,0			;LAUNCH ladder, at X295 Y8-23
-	.DRW	296
-        .DB	H'F0,38,15,H'00,-1,18		;LAUNCH Shootya (ID 38), at X296 Y15
-	.DRW	304
-        .DB	H'F0,40,5,H'00,-1,19		;LAUNCH Slashem (ID 40), at X304 Y5
+	.DRW	317;296
+        .DB	H'F0,38,5,H'00,-1,19		;LAUNCH Shootya (ID 38), at X317 Y5
 	.DRW	339
         .DB	H'F0,40,3,H'00,-1,20		;LAUNCH Slashem (ID 40), at X339 Y3
 	.DRW	350
@@ -3873,8 +3875,20 @@ J1TAB_0:
         .DB	H'F0,40,3,H'00,-1,22		;LAUNCH Slashem (ID 40), at X356 Y3
 	.DRW	366
 		.DB	H'F4,0,0,0,0,0				;screen lock at X366
+	.DRW	380
+        .DB	H'F0,40,5,H'00,-1,23		;LAUNCH Slashem (ID 40), at X380 Y5
+	.DRW	397
+        .DB	H'F0,38,10,H'00,-1,24		;LAUNCH Shootya (ID 38), at X397 Y10
 	.DRW	406
-        .DB	H'F0,38,5,H'00,-1,23		;LAUNCH Shootya (ID 38), at X406 Y5
+        .DB	H'F0,38,5,H'00,-1,25		;LAUNCH Shootya (ID 38), at X406 Y5
+	.DRW	417
+		.DB	H'F4,0,0,0,0,0				;screen lock at X417
+	.DRW	425
+        .DB	H'F0,63,5,H'00,-1,26		;LAUNCH Horsie (ID 63), x425 y5
+	.DRW 	H'8000+444
+	.DB     14,17,DOOR,2,UP,UP			;DOOR 3 at X444 Y14-17
+	.DRW	446
+        .DB	H'F0,6,18,H'00,-1,27		;LAUNCH Medkit (ID 6), at X426 Y18
 
 ;	.DRW 	H'8000+142			 
 ;	.DB     20,21,DOOR,0,UP,UP		;DOOR 1
