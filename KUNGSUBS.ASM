@@ -1977,6 +1977,24 @@ FT35:	LDA	REG2000
 .EQU	HGb,H'1E
 .EQU	PAUSE,H'1F
 
+.EQU    MC,    12
+.EQU    MCs,   13
+.EQU    MDb,   13
+.EQU    MD,    14
+.EQU    MDs,   15
+.EQU    MEb,   15
+.EQU    ME,    16
+.EQU    MF,    17
+.EQU    MFs,   18
+.EQU    MGb,   18
+.EQU    MG,    19         ;NOTES (CENTER AROUND INSTRUMENT RANGE)
+.EQU    MGs,   20
+.EQU    MAb,   20
+.EQU    MA,    21
+.EQU    MAs,   22
+.EQU    MBb,   22
+.EQU    MB,    23
+
 .EQU	N16,B'00000000		;NOTE DURATIONS.  USE BY ADDING (Gs+N16)
 .EQU	N8,B'00100000
 .EQU	N4,B'01000000
