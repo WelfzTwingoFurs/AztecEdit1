@@ -2008,7 +2008,7 @@ MS20: 	.DB	ACTIVATE,EFALL		;fall, which is explode
 ;but it's gotta be done, or else it will still only hit the HERO.
 ;I couldn't do anything about it, so I made the hurt rocket just track the damn enemies already
 MISSILHURT:
-	.DB	SETMOM,-50,0
+	.DB	SETMOM,0,0
 	.DB	TARGET
 	.DRW	ENEMY;ALL^HERO0  
 MH10:			;it will already be target hero, so put a negative speed, and it will run away from him
@@ -2034,8 +2034,8 @@ MISSILITEM:
 ;	.DB	TARGET
 ;	.DRW	HERO0  
 ;	.DB	FACE,TRAVELING|UP	;face travelling direction
-	.DB	MOMLIMIT,50,10
-	.DB SETMOM,25,0
+	.DB	MOMLIMIT,50,15
+	.DB SETMOM,-1,0
 	.DB	TARGET
 	.DRW	ENEMY;ALL^HERO0  
 	.DB	FACE,TRAVELING|DOWN
@@ -2045,7 +2045,7 @@ MISSILITEM:
 	.DB	ACTIVATE,EHURT ;MH10, follow enemies
 
 MAGICTHROW:
-	.DRW  	MISSILE1;GO;HTNTS			;WAKEUP FOR THROWN DYNAMITE
+	.DRW  	MISSILE1;GO;;HTNTS			;WAKEUP FOR THROWN DYNAMITE
 	.DRW	MISSILITEM;MRDYNAMITE
 	.DB	0,-1
 	.DB	H'11,H'13
@@ -2130,21 +2130,73 @@ CHECKALL:
 	.DRW	CHK10			;else, go to part 2
 	.DB	192
 	.DB	DIE,1			;DIE IF WE FELL OFF SCREEN
-CHK10:				;;Check if at screen's very edge
+CHK10:				;;Check if at screen's edge
 	.DB	IFXEDGE 
 	.DRW	CHK20		;;jump back if we are
 	.DB	4
 	.DB	SKIP
 	.DRW	CHK30			;;else, go to part 3
 CHK20:	
-	.DB	ADDMOM,255,-128
+	.DB	ADDMOM,255,-128		;do this right
 	.DB	ANIMATION,EJUMP,1
 	.DB	DELAY,5
 	.DB	SKIP
 	.DRW	CHK30		;go to part 3
 CHK30:
-	.DB	SKIP				;not dividing it like this makes a crash
-	.DRW	NOT_THIS_TIME		;go to part 3
+	.DB	RANGE		;IF HE'S WITHIN 7 OF US ON Y
+	.DRW	ACTWALK		;SKIP it
+	.DB	-1,7
+	.DB	SKIP			;else
+	.DRW	CHASEDOWN		;go to part 3
+
+CHASEDOWN:	;NOT_THIS_TIME:
+	.DB	INSTRUCTIONS,H'84
+	.DB	RESETFRICTION,1,0
+
+	.DB	FETCHREG,YDIR	;GET Y DIRECTION TO TARGET
+	.DB	EQUAL
+	.DRW	GODOWN		;IF HE'S BELOW, LET'S GOW! Dow we gow, yes.
+	.DRW	0
+;Else if he's above us, so: Time to jump up. JUMP UP!!!
+
+	.DB	STANDING	;if not standing anymore
+	.DRW	LEJUMP			;Else, normally would do LEDGEHUNT, but not here. This is for semi-immobile foes.
+	.DB	ACTIVATE,EFALL	;begin falling down
+	
+GODOWN:
+	.DB	LOAD,26
+	.DB	DELAY,REGISTER	;WAIT BEFORE JUMPING. 
+
+	.DB	SETREG,1,0
+	.DB	STORE,STATE
+	.DB	ACTIVATE,EJUMP	;SET STATE OF JUMP DOWN
+GD5:
+ 	.DB	PRECIPICE
+	.DRW	LEFALL	;TRY TO JUMP WHEN ITS RIGHT NEAR US
+	.DB	0	  
+
+;here, we should put an ELSE, that makes the enemy slowly approach the edge, walking.
+;check if there's a PRECIPICE, then make a walk that skips back here, to then re-check if we can jump.
+
+	.DB	SKIP
+	.DRW	ACTWALK		;loop to checkagain/not_this_time (chasedown)
+
+LEFALL:
+  	.DB	SETREG,2,0	;set state of jumping down (see ENJUMP)
+	.DB	STORE,STATE
+	.DB	INSTRUCTIONS,H'82
+	.DB	SETMOM,32,0
+	.DB	ACTIVATE,EJUMP	;SET STATE OF JUMP ACROSS
+
+LEJUMP:
+	.DB	LOAD,31
+	.DB	INSTRUCTIONS,2
+	.DB	SOLIDSTATE,REGISTER	;why must we jump so many? To pass thru ledges, without then falling through them.
+	.DB	SETMOM,-1,-78	;UPWARDS WITH MAX SPEED AT START
+	.DB	SETMOM,-1,-78	;UPWARDS WITH MAX SPEED AT START
+	.DB	SETMOM,-1,-78	;UPWARDS WITH MAX SPEED AT START
+	.DB	SETMOM,-1,-78	;UPWARDS WITH MAX SPEED AT START
+	.DB	ACTIVATE,EFALL	
 
 ;;; Uninteractable objects, effects and things ;;;
 
